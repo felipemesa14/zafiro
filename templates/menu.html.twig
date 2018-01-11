@@ -1,0 +1,42 @@
+<div class="cl-sidebar">
+    <div class="cl-toggle"><i class="fa fa-bars"></i></div>
+    <div class="cl-navblock">
+        <div class="menu-space">
+            <div class="content">
+                <div class="side-user">
+                    <div class="avatar"><img src="{{ asset('images/avatar1_50.jpg')}}" alt="Avatar" /></div>
+                    <div class="info">
+                        <a href="#">Empresa</a>
+                        <img src="{{ asset('images/state_online.png')}}" alt="Status" /> <span>En linea</span>
+                    </div>
+                </div>
+                <ul class="cl-vnavigation">
+                    <li {% if route starts with 'zaf_ingreso' %} class="parent open" {% endif %}><a href="#"><i class="fa fa-home"></i><span>Ingresos</span></a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Pedido</a></li>
+                            <li {% if route starts with 'zaf_ingreso_factura' %} class="active" {% endif %}><a href="{{ path('zaf_ingreso_factura_lista')}}">Factura de venta</a></li>
+                            <li><a href="#">Nota credito</a></li>
+                            <li><a href="#">Remision</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-home"></i><span>Gastos</span></a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Orden compra</a></li>
+                            <li><a href="#">Compra</a></li>
+                            <li><a href="#">Nota debito</a></li>
+                        </ul>
+                    </li>    
+                    <li {% if route starts with 'zaf_admin' %} class="parent open" {% endif %}><a href="#"><i class="fa fa-home"></i><span>Administracion</span></a>
+                        <ul class="sub-menu">
+                            <li {% if route starts with 'zaf_admin_tercero' %} class="active" {% endif %}><a href="{{path('zaf_admin_tercero_lista')}}">Cliente/Proveedor</a></li>
+                            <li><a href="#">Item</a></li>                            
+                        </ul>
+                    </li>                    
+                </ul>
+            </div>
+        </div>
+        <div class="text-right collapse-button" style="padding:7px 9px;">
+            <button id="sidebar-collapse" class="btn btn-default" style=""><i style="color:#fff;" class="fa fa-angle-left"></i></button>
+        </div>
+    </div>
+</div>

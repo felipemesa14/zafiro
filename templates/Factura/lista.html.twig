@@ -1,0 +1,76 @@
+{% extends 'base2.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="cl-mcont">
+            {{ form_start(form, { 'attr': {'novalidate': 'novalidate'} }) }}
+            <div class="block-flat">
+                <div class="header">							
+                    <h4>Filtros de busqueda</h4>
+                </div>
+                <div class="content">
+                    <div class="form-group form-group-sm">
+                        <label for="form_numero" class="col-sm-2 control-label">Numero:</label>
+                        <div class="col-sm-4">
+                            {{form_widget(form.numero, { 'attr': {'class': 'input-sm'} })}}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-flat">
+                <!-- aqui va el contenido del front end -->
+                <div class="row table-responsive">
+                    <table class="table-bordered table-responsive table-hover table-condensed blue">
+                        <thead>
+                            <tr>
+                                <th><strong>CODIGO</strong></th>
+                                <th><strong>NUM</strong></th>
+                                <th><strong>NOMBRE</strong></th>
+                                <th><strong>CLIENTE</strong></th>
+                                <th><strong>FECHA</strong></th>
+                                <th><strong>VENCIMIENTO</strong></th>
+                                <th><strong>TOTAL</strong></th>
+                                <th class="text-center"><strong>AUT</strong></th>
+                                <th class="text-center"><strong>ANU</strong></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-center"><input type="checkbox"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for arMovimientos in arMovimientos %}
+                                <tr>
+                                    <td>{{arMovimientos.codigoMovimientoPk}}</td>
+                                    <td>{{arMovimientos.numeroFactura}}</td>
+                                    <td>{{arMovimientos.nombre}}</td>
+                                    <td>{{arMovimientos.terceroRel.nombreCorto | default('')}}</td>
+                                    <td>{{arMovimientos.fecha | date('d/m/Y')}}</td>
+                                    <td>{{arMovimientos.fechaVencimiento | date('d/m/Y')}}</td>
+                                    <td class="text-right">{{arMovimientos.vrTotal | number_format(0, '.', ',')}}</td>
+                                    <td class="text-center">{% if (arMovimientos.estadoAutorizado ==1) %}<span class="label label-success">SI</span> {%else%}<span class="label label-danger">NO</span>{%endif%}</td>
+                                    <td class="text-center">{% if (arMovimientos.estadoAnulado ==1) %}<span class="label label-danger">SI</span> {%else%}<span class="label label-primary">NO</span>{%endif%}</td>
+                                    <td class="text-center"><a href="{{ path('zaf_ingreso_factura_nuevo', {'codigoMovimiento': arMovimientos.codigoMovimientoPk}) }}"><img src="{{ asset('images/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar"></a></td>
+                                    <td class="text-center"><a href="{{ path('zaf_ingreso_factura_detalle', {'codigoMovimiento': arMovimientos.codigoMovimientoPk}) }}"><img src="{{ asset('images/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22 title="Detalle"></a></td>
+                                    <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]" value="{{arMovimientos.codigoMovimientoPk}}"></td>
+                                </tr>
+                            {%endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="btn-toolbar" style="float: right">
+                <div class="btn-group">                                
+                    <a class="btn btn-default btn-sm" href="{{ path('zaf_ingreso_factura_nuevo', {'codigoMovimiento': 0}) }}">Nuevo</a>                              
+                </div>
+                <div class="btn-group"> 
+                    {{ form_widget(form.BtnEliminar,{ 'attr': {'class': 'btn btn-danger btn-sm'} }) }}                   
+                </div>
+            </div>
+            {{form_end(form)}}
+        </div>
+    </div>
+{% endblock %} 

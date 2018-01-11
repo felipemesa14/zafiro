@@ -1,0 +1,80 @@
+{% extends 'base2.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="cl-mcont">
+            {{ form_start(form) }}
+            <div class="block-flat">
+                <!-- aqui va el contenido del front end -->
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label"><br>Cliente:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="input-group">
+                                    <input id="form_txtNumeroIdentificacion"  name="form_txtNumeroIdentificacion"  type="text" class="form-control" required="required" value="{{ arMovimiento.terceroRel.numeroIdentificacion |default('') }}"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="input-group">                                      
+                                    <input id="form_txtNombreCorto"  name="form_txtNombreCorto"  type="text" class="form-control" value="{{ arMovimiento.terceroRel.nombreCorto |default('') }}" readOnly="ReadOnly" />
+                                    <span class="input-group-btn">                                        
+                                        <a class="btn btn-default btn-sm" href="javascript:abrirVentana('{{path('zaf_buscar_tercero_lista')}}', 'buscarTercero', 600, 900)">Buscar</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="form_nombre" class="col-sm-2 control-label">Nombre:</label>
+                    <div class="col-sm-4">
+                        {{form_widget(form.nombre)}}
+                        <div class="text-error">{{form_errors(form.nombre)}}</div>
+                    </div>
+                    <label for="form_plazoPago" class="col-sm-2 control-label">Plazo de pago:</label>
+                    <div class="col-sm-4">
+                        {{form_widget(form.plazoPago)}}
+                        <div class="text-error">{{form_errors(form.plazoPago)}}</div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="form_fecha" class="col-sm-2 control-label">Fecha:</label>
+                    <div class="col-sm-4">
+                        {{form_widget(form.fecha)}}
+                        <div class="text-error">{{form_errors(form.fecha)}}</div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="form_fechaVencimiento" class="col-sm-2 control-label">Fecha vencimiento</label>
+                    <div class="col-sm-4">
+                        {{form_widget(form.fechaVencimiento)}}
+                        <div class="text-error">{{form_errors(form.fechaVencimiento)}}</div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="form_soporte" class="col-sm-2 control-label">Soporte:</label>
+                    <div class="col-sm-10">
+                        {{form_widget(form.soporte)}}
+                        <div class="text-error">{{form_errors(form.soporte)}}</div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="form_comentarios" class="col-sm-2 control-label required">Comentario:</label>
+                    <div class="col-sm-10">
+                        {{form_widget(form.comentarios)}}
+                        <div class="text-error">{{form_errors(form.comentarios)}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-toolbar" style="float: right">
+                <div class="btn-group">                                
+                    <a class="btn btn-default btn-sm" href="{{ path('zaf_ingreso_factura_lista') }}">Cancelar</a>                              
+                </div>
+                <div class="btn-group"> 
+                    {{ form_widget(form.guardar,{ 'attr': {'class': 'btn btn-primary btn-sm'} }) }}                
+                </div>
+            </div>
+            {{form_end(form)}}
+        </div>
+    </div>
+{% endblock %} 
