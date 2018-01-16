@@ -2,8 +2,7 @@
 {% block title %}Buscar tercero - Zafiro 360{% endblock %}
 {% block content %}
     <script language="javascript">
-        function selTercero(codigo, nombre)
-        {
+        function selTercero(codigo, nombre) {
             opener.document.getElementById('form_txtNumeroIdentificacion').value = codigo;
             opener.document.getElementById('form_txtNombreCorto').value = nombre;
             opener.document.getElementById('form_txtNumeroIdentificacion').focus();
@@ -13,32 +12,35 @@
     <div class="row">
         <div class="cl-mcont">
             <div class="block-flat">
-                <div class="header">							
+                <div class="header">
                     <h4>TERCEROS</h4>
                 </div>
                 <div class="content">
-                    <table class="table-bordered table-responsive table-hover table-condensed blue">           
+                    <table class="table-bordered table-responsive table-hover table-condensed blue">
                         <thead>
-                            <tr>
-                                <th>CODIGO</th>
-                                <th>IDENTIFICACIÓN</th>
-                                <th>NOMBRE</th>                                                
-                                <th>TIPO</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th>CODIGO</th>
+                            <th>IDENTIFICACIÓN</th>
+                            <th>NOMBRE</th>
+                            <th>TIPO</th>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for arTerceros in arTerceros %}
-                                <tr>
-                                    <td>{{ arTerceros.codigoTerceroPk }}</td>
-                                    <td>{{ arTerceros.numeroIdentificacion  }}</td>
-                                    <td>{{ arTerceros.nombreCorto }}</td>       
-                                    <td>{{ arTerceros.terceroTipoRel.nombre | default('') }}</td>  
-                                    <td style="text-align: center"><a href="javascript:selTercero('{{ arTerceros.numeroIdentificacion }}','{{ arTerceros.nombreCorto }}')" ><img src="{{ asset('images/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                
-                                </tr>
-                            {% endfor %}
+                        {% for arTerceros in arTerceros %}
+                            <tr>
+                                <td>{{ arTerceros.codigoTerceroPk }}</td>
+                                <td>{{ arTerceros.numeroIdentificacion }}</td>
+                                <td>{{ arTerceros.nombreCorto }}</td>
+                                <td>{{ arTerceros.terceroTipoRel.nombre | default('') }}</td>
+                                <td style="text-align: center"><a
+                                            href="javascript:selTercero('{{ arTerceros.numeroIdentificacion }}','{{ arTerceros.nombreCorto }}')"><img
+                                                src="{{ asset('images/bootstrap/glyphicons_198_ok.png') }}" width=20
+                                                height=20></a></td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
-                    </table> 
+                    </table>
                 </div>
             </div>
         </div>

@@ -5,90 +5,90 @@
             {{ form_start(form) }}
             <div class="block-flat">
                 <!-- aqui va el contenido del front end -->
-                <div class="form-group form-group-sm">
-                    <label for="form_numeroIdentificacion" class="col-sm-2 control-label">Nit:</label>
+                <div class="form-group row">
+                    <label for="form_numeroIdentificacion" class="col-form-label col-sm-2 form-control-label required">Nit:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.numeroIdentificacion)}}
-                        <div class="text-error">{{form_errors(form.numeroIdentificacion)}}</div>
+                        {{ form_widget(form.numeroIdentificacion) }}
+                        <div class="text-error">{{ form_errors(form.numeroIdentificacion) }}</div>
                     </div>
-                    <label for="form_nombreCorto" class="col-sm-2 control-label">Nombre:</label>
+                    <label for="form_nombreCorto" class="col-form-label col-sm-2 form-control-label required">Nombre:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.nombreCorto)}}
-                        <div class="text-error">{{form_errors(form.nombreCorto)}}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_telefono" class="col-sm-2 control-label">Telefono:</label>
-                    <div class="col-sm-4">
-                        {{form_widget(form.telefono)}}
-                        <div class="text-error">{{form_errors(form.telefono)}}</div>
-                    </div>
-                    <label for="form_fax" class="col-sm-2 control-label">Fax:</label>
-                    <div class="col-sm-4">
-                        {{form_widget(form.fax)}}
-                        <div class="text-error">{{form_errors(form.fax)}}</div>
+                        {{ form_widget(form.nombreCorto) }}
+                        <div class="text-error">{{ form_errors(form.nombreCorto) }}</div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_ciudad" class="col-sm-2 control-label">Ciudad:</label>
+                <div class="form-group row">
+                    <label for="form_telefono" class="col-form-label col-sm-2 form-control-label required">Telefono:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.ciudad)}}
-                        <div class="text-error">{{form_errors(form.ciudad)}}</div>
+                        {{ form_widget(form.telefono) }}
+                        <div class="text-error">{{ form_errors(form.telefono) }}</div>
                     </div>
-                    <label for="form_direccion" class="col-sm-2 control-label required">Direccion:</label>
+                    <label for="form_fax" class="col-form-label col-sm-2 form-control-label required">Fax:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.direccion)}}
-                        <div class="text-error">{{form_errors(form.direccion)}}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_email" class="col-sm-2 control-label">Email:</label>
-                    <div class="col-sm-4">
-                        {{form_widget(form.email)}}
-                        <div class="text-error">{{form_errors(form.email)}}</div>
-                    </div>
-                    <label for="form_celular" class="col-sm-2 control-label">Celular:</label>
-                    <div class="col-sm-4">
-                        {{form_widget(form.celular)}}
-                        <div class="text-error">{{form_errors(form.celular)}}</div>
+                        {{ form_widget(form.fax) }}
+                        <div class="text-error">{{ form_errors(form.fax) }}</div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_formaPagoRel" class="col-sm-2 control-label">Forma de pago:</label>
+                <div class="form-group row">
+                    <label for="form_ciudad" class="col-form-label col-sm-2 form-control-label required">Ciudad:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.formaPagoRel)}}
-                        <div class="text-error">{{form_errors(form.formaPagoRel)}}</div>
+                        {{ form_widget(form.ciudad) }}
+                        <div class="text-error">{{ form_errors(form.ciudad) }}</div>
+                    </div>
+                    <label for="form_direccion" class="col-form-label col-sm-2 form-control-label required required">Direccion:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.direccion) }}
+                        <div class="text-error">{{ form_errors(form.direccion) }}</div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_email" class="col-sm-2 control-label"></label>
+                <div class="form-group row">
+                    <label for="form_email" class="col-form-label col-sm-2 form-control-label required">Email:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.cliente)}}
-                        <div class="text-error">{{form_errors(form.cliente)}}</div>
+                        {{ form_widget(form.email) }}
+                        <div class="text-error">{{ form_errors(form.email) }}</div>
                     </div>
-                    <label for="form_email" class="col-sm-2 control-label"></label>
+                    <label for="form_celular" class="col-form-label col-sm-2 form-control-label required">Celular:</label>
                     <div class="col-sm-4">
-                        {{form_widget(form.proveedor)}}
-                        <div class="text-error">{{form_errors(form.proveedor)}}</div>
+                        {{ form_widget(form.celular) }}
+                        <div class="text-error">{{ form_errors(form.celular) }}</div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <label for="form_comentarios" class="col-sm-2 control-label required">Comentario:</label>
+                <div class="form-group row">
+                    <label for="form_formaPagoRel" class="col-form-label col-sm-2 form-control-label required">Forma de pago:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.formaPagoRel) }}
+                        <div class="text-error">{{ form_errors(form.formaPagoRel) }}</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="form_email" class="col-form-label col-sm-2 form-control-label required"></label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.cliente) }}
+                        <div class="text-error">{{ form_errors(form.cliente) }}</div>
+                    </div>
+                    <label for="form_email" class="col-form-label col-sm-2 form-control-label required"></label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.proveedor) }}
+                        <div class="text-error">{{ form_errors(form.proveedor) }}</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="form_comentarios" class="col-form-label col-sm-2 form-control-label required required">Comentario:</label>
                     <div class="col-sm-10">
-                        {{form_widget(form.comentarios)}}
-                        <div class="text-error">{{form_errors(form.comentarios)}}</div>
+                        {{ form_widget(form.comentarios) }}
+                        <div class="text-error">{{ form_errors(form.comentarios) }}</div>
                     </div>
                 </div>
             </div>
             <div class="btn-toolbar" style="float: right">
-                <div class="btn-group">                                
-                    <a class="btn btn-default btn-sm" href="{{ path('zaf_admin_tercero_lista') }}">Cancelar</a>                              
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="{{ path('zaf_admin_tercero_lista') }}">Cancelar</a>
                 </div>
-                <div class="btn-group"> 
-                    {{ form_widget(form.guardar,{ 'attr': {'class': 'btn btn-primary btn-sm'} }) }}                
+                <div class="btn-group">
+                    {{ form_widget(form.guardar,{ 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
                 </div>
             </div>
-            {{form_end(form)}}
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %} 

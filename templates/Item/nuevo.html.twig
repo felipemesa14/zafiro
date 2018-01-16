@@ -1,0 +1,53 @@
+{% extends 'base2.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="cl-mcont">
+            {{ form_start(form) }}
+            <div class="block-flat">
+                <!-- aqui va el contenido del front end -->
+                <div class="form-group row">
+                    <label for="form_numeroIdentificacion" class="col-form-label col-sm-2 form-control-label required">Nombre:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.nombre) }}
+                        <div class="text-error">{{ form_errors(form.nombre) }}</div>
+                    </div>
+                    <label for="form_nombreCorto"
+                           class="col-form-label col-sm-2 form-control-label required">Valor:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.vrPrecio) }}
+                        <div class="text-error">{{ form_errors(form.vrPrecio) }}</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="form_telefono"
+                           class="col-form-label col-sm-2 form-control-label required">Porcentaje:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.porcentaje) }}
+                        <div class="text-error">{{ form_errors(form.porcentaje) }}</div>
+                    </div>
+                    <label for="form_fax" class="col-form-label col-sm-2 form-control-label required">Imagen:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.urlImagen) }}
+                        <div class="text-error">{{ form_errors(form.urlImagen) }}</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="form_comentarios" class="col-form-label col-sm-2 form-control-label required required">Descripci&oacute;n:</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.descripcion) }}
+                        <div class="text-error">{{ form_errors(form.descripcion) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-toolbar" style="float: right">
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="{{ path('zaf_admin_item_lista') }}">Cancelar</a>
+                </div>
+                <div class="btn-group">
+                    {{ form_widget(form.guardar,{ 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %} 
