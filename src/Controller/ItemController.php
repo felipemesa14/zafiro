@@ -8,9 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\Type\ItemType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ItemController extends Controller
 {
+    var $codigoEmpresa = "";
 
     /**
      * @Route("/admin/item/lista", name="zaf_admin_item_lista")
@@ -18,10 +20,13 @@ class ItemController extends Controller
     public function listaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $codigoEmpresa = 1; // esta variable se debe consultar con la entidad del usuario que tiene relacion con la empresa
+        $this->codigoEmpresa = 1; // esta variable se debe consultar con la entidad del usuario que tiene relacion con la empresa
         $form = $this->formularioLista();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('BtnFiltrar')->isClicked()) {
+                $this->filtrar($form);
+            }
             if ($form->get('BtnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
                 $strRespuesta = $em->getRepository('App:Item')->eliminar($arrSeleccionados);
@@ -32,8 +37,7 @@ class ItemController extends Controller
             }
         }
         //Consultar los item de la empresa
-        $arItems = $em->getRepository('App:Item')->findBy(array(
-            'codigoEmpresaFk' => $codigoEmpresa));
+        $arItems = $this->lista();
         return $this->render('Item/lista.html.twig', array(
             'arItems' => $arItems,
             'form' => $form->createView()));
@@ -68,19 +72,48 @@ class ItemController extends Controller
 
     /**
      *
-     * @Route("/admin/item/item/{codigoItem}", name="zaf_admin_item_detalle")
+     * @Route("/admin/item/detalle/{codigoItem}", name="zaf_admin_item_detalle")
      */
-//    public function detalleAction(Request $request, $codigoitem) {
-//        $em = $this->getDoctrine()->getManager();
-//        $arItem = $em->getRepository('App:item')->find($codigoitem);
-//        return $this->render('item/detalle.html.twig', array(
-//                    'aritem' => $arItem));
-//    }
+    public function detalleAction(Request $request, $codigoitem)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arItem = $em->getRepository('App:item')->find($codigoitem);
+        return $this->render('item/detalle.html.twig', array(
+            'aritem' => $arItem));
+    }
 
+    /**
+     * @param $form
+     */
+    private function filtrar($form)
+    {
+        $session = new Session();
+        $session->set('filtroNombreItem', $form->get('nombre')->getData());
+        $session->set('filtroReferenciaItem', $form->get('referencia')->getData());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function lista()
+    {
+        $session = new Session();
+        $em = $this->getDoctrine();
+        $arItem = $em->getRepository("App:Item")->listaDql(
+            $this->codigoEmpresa,
+            $session->get('filtroNombreItem'),
+            $session->get('filtroReferenciaItem'));
+        return $arItem;
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface
+     */
     private function formularioLista()
     {
         $form = $this->createFormBuilder()
             ->add('nombre', TextType::class)
+            ->add('referencia', TextType::class)
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtar'))
             ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
             ->getForm();

@@ -25,13 +25,13 @@
                             <li><a href="#">Compra</a></li>
                             <li><a href="#">Nota debito</a></li>
                         </ul>
-                    </li>    
+                    </li>
                     <li {% if route starts with 'zaf_admin' %} class="parent open" {% endif %}><a href="#"><i class="fa fa-home"></i><span>Administracion</span></a>
                         <ul class="sub-menu">
                             <li {% if route starts with 'zaf_admin_tercero' %} class="active" {% endif %}><a href="{{path('zaf_admin_tercero_lista')}}">Cliente/Proveedor</a></li>
-                            <li><a href="#">Item</a></li>                            
+                            <li {% if route starts with 'zaf_admin_item_lista' %} class="active" {% endif %}><a href="{{path('zaf_admin_item_lista')}}">Item</a></li>
                         </ul>
-                    </li>                    
+                    </li>
                 </ul>
             </div>
         </div>

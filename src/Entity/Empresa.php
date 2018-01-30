@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="empresa")
  * @ORM\Entity(repositoryClass="App\Repository\EmpresaRepository")
  */
-class Empresa {
+class Empresa
+{
 
     /**
      * @ORM\Id
@@ -31,6 +32,11 @@ class Empresa {
      * @ORM\OneToMany(targetEntity="Tercero", mappedBy="empresaRel")
      */
     protected $tercerosEmpresaRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="empresaRel")
+     */
+    protected $itemsEmpresaRel;
 
     /**
      * @return mixed
@@ -94,6 +100,22 @@ class Empresa {
     public function setTercerosEmpresaRel($tercerosEmpresaRel): void
     {
         $this->tercerosEmpresaRel = $tercerosEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItemsEmpresaRel()
+    {
+        return $this->itemsEmpresaRel;
+    }
+
+    /**
+     * @param mixed $itemsEmpresaRel
+     */
+    public function setItemsEmpresaRel($itemsEmpresaRel): void
+    {
+        $this->itemsEmpresaRel = $itemsEmpresaRel;
     }
 
 }

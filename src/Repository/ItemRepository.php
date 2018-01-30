@@ -12,5 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class ItemRepository extends EntityRepository
 {
-     
+    public function listaDql($codigoEmpresa, $nombre = "", $referencia = "")
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()->from("App:Item", "item")->select("item")
+            ->where("item.codigoEmpresaFk = {$codigoEmpresa}");
+        if ($nombre) {
+            $qb->andWhere("item.nombre = '{$nombre}'");
+        }
+        if ($referencia) {
+            $qb->andWhere("item.referencia = '{$referencia}'");
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function eliminar($arrSeleccionados)
+    {
+        $em = $this->getEntityManager();
+        $strRespuesta = "";
+        if (count($arrSeleccionados) > 0) {
+            foreach ($arrSeleccionados as $codigoItem) {
+                $arItem = $em->getRepository('App:Item')->find($codigoItem);
+                //Realizar validacion al momento de relacionar el detalle de la factura con los items
+                $em->remove($arItem);
+            }
+            $em->flush();
+        }
+        return $strRespuesta;
+    }
 }

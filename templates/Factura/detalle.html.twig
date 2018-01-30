@@ -3,7 +3,7 @@
     <div class="row">
         <div class="cl-mcont">
             <div class="block-flat">
-                <div class="header">							
+                <div class="header">
                     <h4>Información factura</h4>
                 </div>
                 <div class="content">
@@ -11,36 +11,36 @@
                         <div class="col-lg-6 col-sm-6 col-md-4 col-xs-12">
                             <table class="table table-condensed table-bordered">
                                 <tr>
-                                    <td class="primary"><strong>CODIGO:</strong></td>
-                                    <td>{{arMovimiento.codigoMovimientoPk}}</td>
+                                    <td class="primary"><strong>ID:</strong></td>
+                                    <td>{{ arMovimiento.codigoMovimientoPk }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>NUMERO:</strong></td>
-                                    <td>{{ arMovimiento.numeroFactura}}</td>
+                                    <td>{{ arMovimiento.numeroFactura }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>NIT:</strong></td>
-                                    <td>{{ arMovimiento.terceroRel.numeroIdentificacion | default('')}}</td>
+                                    <td>{{ arMovimiento.terceroRel.numeroIdentificacion | default('') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>CLIENTE:</strong></td>
-                                    <td>{{ arMovimiento.terceroRel.nombreCorto | default('')}}</td>
+                                    <td>{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>FECHA:</strong></td>
-                                    <td>{{arMovimiento.fecha | date('d/m/Y')}}</td>
+                                    <td>{{ arMovimiento.fecha | date('d/m/Y') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>FECHA VENCIMIENTO:</strong></td>
-                                    <td>{{arMovimiento.fechaVencimiento | date('d/m/Y')}}</td>
+                                    <td>{{ arMovimiento.fechaVencimiento | date('d/m/Y') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>PLAZO DE PAGO:</strong></td>
-                                    <td>{{arMovimiento.plazoPago}}</td>
+                                    <td>{{ arMovimiento.plazoPago }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>USUARIO:</strong></td>
-                                    <td>{{ arMovimiento.usuario}}</td>
+                                    <td>{{ arMovimiento.usuario }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -48,19 +48,22 @@
                             <table class="table table-condensed table-bordered">
                                 <tr>
                                     <td class="primary"><strong>SUBTOTAL:</strong></td>
-                                    <td class="text-right">$ {{arMovimiento.vrSubtotal | number_format(0, '.', ',')}}</td>
+                                    <td class="text-right">
+                                        $ {{ arMovimiento.vrSubtotal | number_format(0, '.', ',') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>IVA:</strong></td>
-                                    <td class="text-right">$ {{arMovimiento.vrIva | number_format(0, '.', ',')}}</td>
+                                    <td class="text-right">$ {{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>DESCUENTO:</strong></td>
-                                    <td class="text-right">$ {{arMovimiento.vrDescuento | number_format(0, '.', ',')}}</td>
+                                    <td class="text-right">
+                                        $ {{ arMovimiento.vrDescuento | number_format(0, '.', ',') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>TOTAL:</strong></td>
-                                    <td class="text-right">$ {{arMovimiento.vrTotal | number_format(0, '.', ',')}}</td>
+                                    <td class="text-right">
+                                        $ {{ arMovimiento.vrTotal | number_format(0, '.', ',') }}</td>
                                 </tr>
                                 <tr>
                                 </tr>
@@ -70,11 +73,11 @@
                             <table class="table table-condensed table-bordered">
                                 <tr>
                                     <td class="primary"><strong>SOPORTE:</strong></td>
-                                    <td>{{arMovimiento.soporte}}</td>
+                                    <td>{{ arMovimiento.soporte }}</td>
                                 </tr>
                                 <tr>
                                     <td class="primary"><strong>COMENTARIOS:</strong></td>
-                                    <td>{{arMovimiento.comentarios}}</td>
+                                    <td>{{ arMovimiento.comentarios }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -90,20 +93,22 @@
                         <div class="row table-responsive">
                             <table class="table-bordered table-responsive table-hover table-condensed blue">
                                 <thead>
-                                    <tr>
-                                        <th><strong>CODIGO</strong></th>
-                                        <th><strong>NOMBRE</strong></th>
-                                        <th class="text-center"><input type="checkbox"></th>
-                                    </tr>
+                                <tr>
+                                    <th><strong>CODIGO</strong></th>
+                                    <th><strong>NOMBRE</strong></th>
+                                    <th class="text-center"><input type="checkbox"></th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {%for arMovimientosDetalles in arMovimientosDetalles %}
-                                        <tr>
-                                            <td>{{arMovimientosDetalles.codigoMovimientoDetallePk}}</td>
-                                            <td>{{arMovimientosDetalles.nombre}}</td>
-                                            <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]" value="{{arMovimientosDetalles.codigoMovimientoDetallePk}}"></td>
-                                        </tr>
-                                    {%endfor %}
+                                {% for arMovimientosDetalles in arMovimientosDetalles %}
+                                    <tr>
+                                        <td>{{ arMovimientosDetalles.codigoMovimientoDetallePk }}</td>
+                                        <td>{{ arMovimientosDetalles.nombre }}</td>
+                                        <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                                       value="{{ arMovimientosDetalles.codigoMovimientoDetallePk }}">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -111,16 +116,16 @@
                 </div>
             </div>
             <div class="btn-toolbar" style="float: left">
-                <div class="btn-group">                                
-                    <a class="btn btn-default btn-sm" href="{{ path('zaf_ingreso_factura_lista') }}">Volver</a>                              
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="{{ path('zaf_ingreso_factura_lista') }}">Volver</a>
                 </div>
             </div>
             <div class="btn-toolbar" style="float: right">
-                <div class="btn-group">                                
-                    <a class="btn btn-default btn-sm" href="#">Nuevo</a>                              
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="#">Nuevo</a>
                 </div>
-                <div class="btn-group"> 
-                    <a href="#" class="btn btn-danger btn-sm">Eliminar</a>                   
+                <div class="btn-group">
+                    <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
                 </div>
             </div>
         </div>
