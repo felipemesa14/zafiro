@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class ItemController extends Controller
 {
-    var $codigoEmpresa = "";
 
     /**
      * @Route("/admin/item/lista", name="zaf_admin_item_lista")

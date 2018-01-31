@@ -39,6 +39,46 @@ class MovimientoDetalle
     private $nombre;
 
     /**
+     * @ORM\Column(name="vr_precio", type="float",nullable=true)
+     */
+    private $vrPrecio = 0;
+
+    /**
+     * @ORM\Column(name="por_iva", type="float",nullable=true)
+     */
+    private $porIva = 0;
+
+    /**
+     * @ORM\Column(name="por_descuento", type="float",nullable=true)
+     */
+    private $porDescuento = 0;
+
+    /**
+     * @ORM\Column(name="vr_subtotal", type="integer",nullable=true)
+     */
+    private $vrSubtotal = 0;
+
+    /**
+     * @ORM\Column(name="vr_descuento", type="integer",nullable=true)
+     */
+    private $vrDescuento = 0;
+
+    /**
+     * @ORM\Column(name="vr_iva", type="integer",nullable=true)
+     */
+    private $vrIva = 0;
+
+    /**
+     * @ORM\Column(name="vr_total", type="integer",nullable=true)
+     */
+    private $vrTotal = 0;
+
+    /**
+     * @ORM\Column(name="cantidad", type="integer",nullable=true)
+     */
+    private $cantidad = 0;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Movimiento", inversedBy="movimientosDetallesMovimientoRel")
      * @ORM\JoinColumn(name="codigo_movimiento_fk", referencedColumnName="codigo_movimiento_pk")
      */
@@ -101,6 +141,22 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
+    public function getCodigoItemFk()
+    {
+        return $this->codigoItemFk;
+    }
+
+    /**
+     * @param mixed $codigoItemFk
+     */
+    public function setCodigoItemFk($codigoItemFk): void
+    {
+        $this->codigoItemFk = $codigoItemFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getNombre()
     {
         return $this->nombre;
@@ -117,17 +173,129 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
-    public function getCodigoItemFk()
+    public function getVrPrecio()
     {
-        return $this->codigoItemFk;
+        return $this->vrPrecio;
     }
 
     /**
-     * @param mixed $codigoItemFk
+     * @param mixed $vrPrecio
      */
-    public function setCodigoItemFk($codigoItemFk): void
+    public function setVrPrecio($vrPrecio): void
     {
-        $this->codigoItemFk = $codigoItemFk;
+        $this->vrPrecio = $vrPrecio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPorIva()
+    {
+        return $this->porIva;
+    }
+
+    /**
+     * @param mixed $porIva
+     */
+    public function setPorIva($porIva): void
+    {
+        $this->porIva = $porIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPorDescuento()
+    {
+        return $this->porDescuento;
+    }
+
+    /**
+     * @param mixed $porDescuento
+     */
+    public function setPorDescuento($porDescuento): void
+    {
+        $this->porDescuento = $porDescuento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSubtotal()
+    {
+        return $this->vrSubtotal;
+    }
+
+    /**
+     * @param mixed $vrSubtotal
+     */
+    public function setVrSubtotal($vrSubtotal): void
+    {
+        $this->vrSubtotal = $vrSubtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrDescuento()
+    {
+        return $this->vrDescuento;
+    }
+
+    /**
+     * @param mixed $vrDescuento
+     */
+    public function setVrDescuento($vrDescuento): void
+    {
+        $this->vrDescuento = $vrDescuento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * @param mixed $vrIva
+     */
+    public function setVrIva($vrIva): void
+    {
+        $this->vrIva = $vrIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotal()
+    {
+        return $this->vrTotal;
+    }
+
+    /**
+     * @param mixed $vrTotal
+     */
+    public function setVrTotal($vrTotal): void
+    {
+        $this->vrTotal = $vrTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * @param mixed $cantidad
+     */
+    public function setCantidad($cantidad): void
+    {
+        $this->cantidad = $cantidad;
     }
 
     /**
@@ -161,5 +329,5 @@ class MovimientoDetalle
     {
         $this->itemRel = $itemRel;
     }
-    
+
 }

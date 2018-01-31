@@ -49,6 +49,11 @@ class Item
     private $porcentaje = 0;
 
     /**
+     * @ORM\Column(name="cantidad", type="integer")
+     */
+    private $cantidad = 0;
+
+    /**
      * @ORM\Column(name="url_imagen", type="text",nullable=true)
      */
     private $urlImagen;
@@ -243,6 +248,22 @@ class Item
     public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
     {
         $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * @param mixed $cantidad
+     */
+    public function setCantidad($cantidad): void
+    {
+        $this->cantidad = $cantidad;
     }
 
 }

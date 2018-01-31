@@ -21,7 +21,13 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
 
     public function nuevoFacturaDetalle($arrSeleccionados)
     {
+        $em = $this->getEntityManager();
+        $strRespuesta = "";
+        if (count($arrSeleccionados) > 0) {
+            foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
 
+            }
+        }
     }
 
     public function eliminar($arrSeleccionados)
