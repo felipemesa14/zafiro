@@ -45,6 +45,7 @@
                                         <th><strong>REFERENCIA</strong></th>
                                         <th><strong>PRECIO</strong></th>
                                         <th><strong>PORCENTAJE</strong></th>
+                                        <th><strong>CANTIDAD</strong></th>
                                         <th class="text-center"><input type="checkbox"></th>
                                     </tr>
                                     </thead>
@@ -54,8 +55,23 @@
                                             <td>{{ arItem.codigoItemPk }}</td>
                                             <td>{{ arItem.nombre }}</td>
                                             <td>{{ arItem.referencia }}</td>
-                                            <td><input value="{{ arItem.vrPrecio }}"></td>
-                                            <td><input value="{{ arItem.porcentaje }}"></td>
+                                            <td style="text-align: center"><input class="input-grid" type="number"
+                                                                                  name="TxtPrecio{{ arItem.codigoItemPk }}"
+                                                                                  value="{{ arItem.vrPrecio }}"
+                                                                                  size="5"
+                                                                                  style="width:120px; text-align: right"/>
+                                            </td>
+                                            <td style="text-align: center"><input class="input-grid" type="number"
+                                                                                  name="TxtPorcentaje{{ arItem.codigoItemPk }}"
+                                                                                  value="{{ arItem.porcentaje }}"
+                                                                                  size="5"
+                                                                                  style="width:120px; text-align: right"/>
+                                            </td>
+                                            <td style="text-align: center"><input class="input-grid" type="number"
+                                                                                  name="TxtCantidad{{ arItem.codigoItemPk }}"
+                                                                                  value=1 size="5"
+                                                                                  style="width:120px; text-align: right"/>
+                                            </td>
                                             <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                            value="{{ arItem.codigoItemPk }}">
                                             </td>
@@ -70,7 +86,7 @@
             </div>
             <div class="btn-toolbar" style="float: right">
                 <div class="btn-group">
-                    {{ form_widget(form.BtnEliminar,{ 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
+                    {{ form_widget(form.BtnGuardar,{ 'attr': {'class': 'btn btn-info btn-sm'} }) }}
                 </div>
             </div>
             {{ form_end(form) }}

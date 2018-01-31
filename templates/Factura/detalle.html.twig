@@ -1,6 +1,8 @@
 {% extends 'base2.html.twig' %}
 {% block content %}
     <div class="row">
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        {{ form_errors(form) }}
         <div class="cl-mcont">
             <div class="block-flat">
                 <div class="header">
@@ -100,12 +102,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for arMovimientosDetalles in arMovimientosDetalles %}
+                                {% for arMovimientoDetalle in arMovimiento.movimientosDetallesMovimientoRel %}
                                     <tr>
-                                        <td>{{ arMovimientosDetalles.codigoMovimientoDetallePk }}</td>
-                                        <td>{{ arMovimientosDetalles.nombre }}</td>
-                                        <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
-                                                                       value="{{ arMovimientosDetalles.codigoMovimientoDetallePk }}">
+                                        <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}</td>
+                                        <td>{{ arMovimientoDetalle.nombre }}</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" name="ChkSeleccionar[]"
+                                                   value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}">
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -122,12 +125,16 @@
             </div>
             <div class="btn-toolbar" style="float: right">
                 <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="#">Nuevo</a>
+                    <a class="btn btn-default btn-sm"
+                       href="javascript:abrirVentana('{{ path('zaf_ingreso_factura_detalle_nuevo_item', { 'codigoMovimiento': arMovimiento.codigoMovimientoPk}) }}', 'agregarItem', 600, 900)"
+                       style="float:left">Nuevo</a>
                 </div>
                 <div class="btn-group">
-                    <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                    {{ form_widget(form.BtnEliminar, {'attr':{'class': 'btn btn-danger btn-sm'}}) }}
                 </div>
             </div>
         </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
-{% endblock %} 
+{% endblock %}

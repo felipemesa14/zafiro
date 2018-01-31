@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Funciones;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +20,8 @@ class ItemController extends Controller
      */
     public function listaAction(Request $request)
     {
+        $objFuncion = new Funciones();
         $em = $this->getDoctrine()->getManager();
-        $this->codigoEmpresa = 1; // esta variable se debe consultar con la entidad del usuario que tiene relacion con la empresa
         $form = $this->formularioLista();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -30,9 +31,7 @@ class ItemController extends Controller
             if ($form->get('BtnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
                 $strRespuesta = $em->getRepository('App:Item')->eliminar($arrSeleccionados);
-                if ($strRespuesta != "") {
-                    $strRespuesta;
-                }
+                $strRespuesta != "" ? $objFuncion->Mensaje('error', $strRespuesta) : $em->flush();
                 return $this->redirectToRoute('zaf_admin_item_lista');
             }
         }
@@ -82,33 +81,24 @@ class ItemController extends Controller
             'aritem' => $arItem));
     }
 
-    /**
-     * @param $form
-     */
-    private function filtrar($form)
+    public function filtrar($form)
     {
         $session = new Session();
         $session->set('filtroNombreItem', $form->get('nombre')->getData());
         $session->set('filtroReferenciaItem', $form->get('referencia')->getData());
     }
 
-    /**
-     * @return mixed
-     */
-    private function lista()
+    public function lista()
     {
         $session = new Session();
         $em = $this->getDoctrine();
         $arItem = $em->getRepository("App:Item")->listaDql(
-            $this->codigoEmpresa,
+            $session->get('arEmpresa')->getCodigoEmpresaPk(),
             $session->get('filtroNombreItem'),
             $session->get('filtroReferenciaItem'));
         return $arItem;
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
     private function formularioLista()
     {
         $form = $this->createFormBuilder()
@@ -120,5 +110,6 @@ class ItemController extends Controller
 
         return $form;
     }
+
 
 }

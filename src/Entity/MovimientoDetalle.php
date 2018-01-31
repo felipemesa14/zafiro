@@ -29,6 +29,11 @@ class MovimientoDetalle
     private $codigoMovimientoFk;
 
     /**
+     * @ORM\Column(name="codigo_item_fk", type="integer")
+     */
+    private $codigoItemFk;
+
+    /**
      * @ORM\Column(name="nombre", type="string", length=80, nullable=true)
      */
     private $nombre;
@@ -38,6 +43,12 @@ class MovimientoDetalle
      * @ORM\JoinColumn(name="codigo_movimiento_fk", referencedColumnName="codigo_movimiento_pk")
      */
     protected $movimientoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="movimientosDetallesItemRel")
+     * @ORM\JoinColumn(name="codigo_item_fk", referencedColumnName="codigo_item_pk")
+     */
+    protected $itemRel;
 
     /**
      * @return mixed
@@ -106,6 +117,22 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
+    public function getCodigoItemFk()
+    {
+        return $this->codigoItemFk;
+    }
+
+    /**
+     * @param mixed $codigoItemFk
+     */
+    public function setCodigoItemFk($codigoItemFk): void
+    {
+        $this->codigoItemFk = $codigoItemFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientoRel()
     {
         return $this->movimientoRel;
@@ -118,4 +145,21 @@ class MovimientoDetalle
     {
         $this->movimientoRel = $movimientoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getItemRel()
+    {
+        return $this->itemRel;
+    }
+
+    /**
+     * @param mixed $itemRel
+     */
+    public function setItemRel($itemRel): void
+    {
+        $this->itemRel = $itemRel;
+    }
+    
 }

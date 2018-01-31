@@ -27,22 +27,8 @@
 </head>
 <body>
 {% block body %}
-    {% set route = app.request.attributes.get('_route') %}
-    {% include 'barraNavegacion.html.twig' %}
-    <div id="cl-wrapper">
-        <div class="container-fluid" id="pcont">
-            <div class="page-head">
-                <h2>Ejemplo</h2>
-                <ol class="breadcrumb">
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Prueba</a></li>
-                    <li class="active">Index</li>
-                </ol>
-            </div>
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+    {% block content %}
+    {% endblock %}
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/general.js') }}"></script>

@@ -65,6 +65,11 @@ class Item
     protected $empresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="itemRel")
+     */
+    protected $movimientosDetallesItemRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoItemPk()
@@ -222,6 +227,22 @@ class Item
     public function setEmpresaRel($empresaRel): void
     {
         $this->empresaRel = $empresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDetallesItemRel()
+    {
+        return $this->movimientosDetallesItemRel;
+    }
+
+    /**
+     * @param mixed $movimientosDetallesItemRel
+     */
+    public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
+    {
+        $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
 
 }
