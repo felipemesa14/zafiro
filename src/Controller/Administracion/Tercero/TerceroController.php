@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Administracion\Tercero;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,12 +9,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\Type\TerceroType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TerceroController extends Controller {
+class TerceroController extends Controller
+{
 
     /**
      * @Route("/admin/tercero/lista", name="zaf_admin_tercero_lista")
      */
-    public function listaAction(Request $request) {
+    public function listaAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $codigoEmpresa = 1; // esta variable se debe consultar con la entidad del usuario que tiene relacion con la empresa
         $form = $this->formularioLista();
@@ -32,16 +34,17 @@ class TerceroController extends Controller {
         //Consultar los tercero de la empresa
         $arTerceros = $em->getRepository('App:Tercero')->findBy(array(
             'codigoEmpresaFk' => $codigoEmpresa));
-        return $this->render('Tercero/lista.html.twig', array(
-                    'arTerceros' => $arTerceros,
-                    'form' => $form->createView()));
+        return $this->render('Administracion/Tercero/lista.html.twig', array(
+            'arTerceros' => $arTerceros,
+            'form' => $form->createView()));
     }
 
     /**
-     * 
+     *
      * @Route("/admin/tercero/nuevo/{codigoTercero}", name="zaf_admin_tercero_nuevo")
      */
-    public function nuevoAction(Request $request, $codigoTercero) {
+    public function nuevoAction(Request $request, $codigoTercero)
+    {
         $em = $this->getDoctrine()->getManager();
         $arEmpresa = $em->getRepository('App:Empresa')->find(1); //Consultar la empresa del usuario
         $arTercero = new \App\Entity\Tercero();
@@ -57,29 +60,31 @@ class TerceroController extends Controller {
             $em->flush();
             return $this->redirectToRoute('zaf_admin_tercero_detalle', array('codigoTercero' => $arTercero->getCodigoTerceroPk()));
         }
-        return $this->render('Tercero/nuevo.html.twig', array(
-                    'arTercero' => $arTercero,
-                    'form' => $form->createView()
+        return $this->render('Administracion/Tercero/nuevo.html.twig', array(
+            'arTercero' => $arTercero,
+            'form' => $form->createView()
         ));
     }
 
     /**
-     * 
+     *
      * @Route("/admin/tercero/detalle/{codigoTercero}", name="zaf_admin_tercero_detalle")
      */
-    public function detalleAction(Request $request, $codigoTercero) {
+    public function detalleAction(Request $request, $codigoTercero)
+    {
         $em = $this->getDoctrine()->getManager();
         $arTercero = $em->getRepository('App:Tercero')->find($codigoTercero);
-        return $this->render('Tercero/detalle.html.twig', array(
-                    'arTercero' => $arTercero));
+        return $this->render('Administracion/Tercero/detalle.html.twig', array(
+            'arTercero' => $arTercero));
     }
 
-    private function formularioLista() {
+    private function formularioLista()
+    {
         $form = $this->createFormBuilder()
-                ->add('nombre', TextType::class)
-                ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtar'))
-                ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
-                ->getForm();
+            ->add('nombre', TextType::class)
+            ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtar'))
+            ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
+            ->getForm();
 
         return $form;
     }

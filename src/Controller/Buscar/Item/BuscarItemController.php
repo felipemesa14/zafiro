@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Buscar\Item;
 
 use App\Funciones;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -38,7 +38,7 @@ class BuscarItemController extends Controller
         }
         //Consultar los item de la empresa
         $arItems = $this->listaItem();
-        return $this->render('Factura/detalleNuevoItem.html.twig', array(
+        return $this->render('Movimiento/Comercial/Factura/detalleNuevoItem.html.twig', array(
             'arItems' => $arItems,
             'form' => $form->createView()));
 

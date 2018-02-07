@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Administracion\Item;
 
 use App\Funciones;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,7 +36,7 @@ class ItemController extends Controller
         }
         //Consultar los item de la empresa
         $arItems = $this->lista();
-        return $this->render('Item/lista.html.twig', array(
+        return $this->render('Administracion/Item/lista.html.twig', array(
             'arItems' => $arItems,
             'form' => $form->createView()));
     }
@@ -62,7 +62,7 @@ class ItemController extends Controller
             $em->flush();
             return $this->redirectToRoute('zaf_admin_item_lista');
         }
-        return $this->render('Item/nuevo.html.twig', array(
+        return $this->render('Administracion/Item/nuevo.html.twig', array(
             'aritem' => $arItem,
             'form' => $form->createView()
         ));

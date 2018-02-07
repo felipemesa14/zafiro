@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Movimiento\Comercial;
 
 use App\Funciones;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,7 +39,7 @@ class FacturaController extends Controller
         $arMovimientos = $em->getRepository('App:Movimiento')->findBy(array(
             'codigoMovimientoTipoFk' => 1,
             'codigoEmpresaFk' => $session->get('arEmpresa')->getCodigoEmpresaPk()));
-        return $this->render('Factura/lista.html.twig', array(
+        return $this->render('Movimiento/Comercial/Factura/lista.html.twig', array(
             'arMovimientos' => $arMovimientos,
             'form' => $form->createView()));
     }
@@ -76,7 +76,7 @@ class FacturaController extends Controller
                 $strRespuesta = "El tercero no existe";
             }
         }
-        return $this->render('Factura/nuevo.html.twig', array(
+        return $this->render('Movimiento/Comercial/Factura/nuevo.html.twig', array(
             'arMovimiento' => $arMovimiento,
             'form' => $form->createView()));
     }
@@ -99,7 +99,7 @@ class FacturaController extends Controller
             }
         }
         $arMovimiento = $em->getRepository('App:Movimiento')->find($codigoMovimiento);
-        return $this->render('Factura/detalle.html.twig', array(
+        return $this->render('Movimiento/Comercial/Factura/detalle.html.twig', array(
             'arMovimiento' => $arMovimiento,
             'form' => $form->createView()));
     }
