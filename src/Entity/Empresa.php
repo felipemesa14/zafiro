@@ -39,6 +39,11 @@ class Empresa
     protected $itemsEmpresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="empresaRel")
+     */
+    protected $usuariosEmpresaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()

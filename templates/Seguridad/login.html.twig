@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div id="cl-wrapper" class="login-container">
+        <div class="middle-login">
+            <div class="block-flat">
+                <div class="header">
+                    <h3 class="text-center"><img class="logo-img" src="{{ asset('images/favicon.png') }}" alt="logo"/>Zafiro
+                        360</h3>
+                </div>
+                <div>
+                    <form style="margin-bottom: 0px !important;" class="form-horizontal" action="{{ path('login') }}"
+                          method="post">
+                        <div class="content">
+                            <h4 class="title">Login</h4>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        <input type="text" placeholder="usuario" id="username" name="_username"
+                                               value="{{ last_username }}"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                        <input type="password" placeholder="Contraseña" id="password" name="_password"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            {% if error %}
+                                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="foot">
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center out-links"><a href="#">&copy; 2018 Zafiro 360</a></div>
+        </div>
+    </div>
+{% endblock %} 

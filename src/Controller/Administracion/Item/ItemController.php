@@ -29,8 +29,7 @@ class ItemController extends Controller
             }
             if ($form->get('BtnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
-                $strRespuesta = $em->getRepository('App:Item')->eliminar($arrSeleccionados);
-                $strRespuesta != "" ? $objFuncion->Mensaje('error', $strRespuesta) : $em->flush();
+                $em->getRepository('App:Item')->eliminar($arrSeleccionados);
                 return $this->redirectToRoute('zaf_admin_item_lista');
             }
         }

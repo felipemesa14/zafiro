@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Funciones;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -32,20 +33,18 @@ class ItemRepository extends ServiceEntityRepository
 
     public function eliminar($arrSeleccionados)
     {
+        $objMensaje = new Funciones();
         $em = $this->getEntityManager();
-        $strRespuesta = "";
-        if (count($arrSeleccionados) > 0) {
-            foreach ($arrSeleccionados as $codigoItem) {
-                //Realizar validacion al momento de relacionar el detalle de la factura con los items
-                $arMovimientoDetalle = $em->getRepository("App:MovimientoDetalle")->findBy(array('codigoItemFk' => $codigoItem));
-                if (!$arMovimientoDetalle) {
+        if ($arrSeleccionados > 0) {
+            try {
+                foreach ($arrSeleccionados as $codigoItem) {
                     $arItem = $em->getRepository('App:Item')->find($codigoItem);
                     $em->remove($arItem);
-                } else {
-                    $strRespuesta = "El item se encuentra asociado a un movimiento, no se puede eliminar.";
                 }
+                $em->flush();
+            } catch (\Exception $exception) {
+                $objMensaje->Mensaje("error", "No se puede eliminar el registro, se esta utilizando en el sistema.");
             }
         }
-        return $strRespuesta;
     }
 }

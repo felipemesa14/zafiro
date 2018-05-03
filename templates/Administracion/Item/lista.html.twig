@@ -58,13 +58,13 @@
                                             <td>{{ arItem.vrPrecio }}</td>
                                             <td>{{ arItem.porcentaje }}%</td>
                                             <td class="text-center"><a
-                                                        href="{{ path('zaf_admin_item_nuevo',{'codigoItem' : arItem.codigoItemPk}) }}"><img
-                                                            src="{{ asset('images/bootstrap/glyphicons_151_edit.png') }}"
-                                                            width=20 height=20 title="Editar"></a></td>
+                                                        href="{{ path('zaf_admin_item_nuevo',{'codigoItem' : arItem.codigoItemPk}) }}">
+                                                    <span class="fa fa-pencil fa-2x"></span>
+                                                </a></td>
                                             <td class="text-center"><a
-                                                        href="{{ path('zaf_admin_item_detalle',{'codigoItem' : arItem.codigoItemPk}) }}"><img
-                                                            src="{{ asset('images/bootstrap/glyphicons_152_new_window.png') }}"
-                                                            width=22 height=22 title="Detalle"></a></td>
+                                                        href="{{ path('zaf_admin_item_detalle',{'codigoItem' : arItem.codigoItemPk}) }}">
+                                                    <span class="fa fa-external-link-square fa-2x"></span>
+                                                </a></td>
                                             <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                            value="{{ arItem.codigoItemPk }}">
                                             </td>

@@ -6,7 +6,7 @@
                 <div class="side-user">
                     <div class="avatar"><img src="{{ asset('images/avatar1_50.jpg') }}" alt="Avatar"/></div>
                     <div class="info">
-                        <a href="#">Empresa</a>
+                        <a href="#">{{ app.user.username|title }}</a>
                         <img src="{{ asset('images/state_online.png') }}" alt="Status"/> <span>En linea</span>
                     </div>
                 </div>

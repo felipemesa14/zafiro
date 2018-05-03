@@ -34,9 +34,9 @@
                                 <td>{{ arTerceros.nombreCorto }}</td>
                                 <td>{{ arTerceros.terceroTipoRel.nombre | default('') }}</td>
                                 <td style="text-align: center"><a
-                                            href="javascript:selTercero('{{ arTerceros.numeroIdentificacion }}','{{ arTerceros.nombreCorto }}')"><img
-                                                src="{{ asset('images/bootstrap/glyphicons_198_ok.png') }}" width=20
-                                                height=20></a></td>
+                                            href="javascript:selTercero('{{ arTerceros.numeroIdentificacion }}','{{ arTerceros.nombreCorto }}')">
+                                        <span class="fa fa-check-circle-o fa-2x"></span>
+                                    </a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

@@ -50,13 +50,12 @@
                                                 <td>{{ arTercero.numeroIdentificacion }}</td>
                                                 <td>{{ arTercero.nombreCorto }}</td>
                                                 <td class="text-center"><a
-                                                            href="{{ path('zaf_admin_tercero_nuevo',{'codigoTercero' : arTercero.codigoTerceroPk}) }}"><img
-                                                                src="{{ asset('images/bootstrap/glyphicons_151_edit.png') }}"
-                                                                width=20 height=20 title="Editar"></a></td>
+                                                            href="{{ path('zaf_admin_tercero_nuevo',{'codigoTercero' : arTercero.codigoTerceroPk}) }}">
+                                                        <span class="fa fa-pencil fa-2x"></span>
                                                 <td class="text-center"><a
-                                                            href="{{ path('zaf_admin_tercero_detalle',{'codigoTercero' : arTercero.codigoTerceroPk}) }}"><img
-                                                                src="{{ asset('images/bootstrap/glyphicons_152_new_window.png') }}"
-                                                                width=22 height=22 title="Detalle"></a></td>
+                                                            href="{{ path('zaf_admin_tercero_detalle',{'codigoTercero' : arTercero.codigoTerceroPk}) }}">
+                                                        <span class="fa fa-external-link-square fa-2x"></span>
+                                                    </a></td>
                                                 <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                                value="{{ arTercero.codigoTerceroPk }}">
                                                 </td>
