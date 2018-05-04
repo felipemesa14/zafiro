@@ -27,6 +27,26 @@
 </head>
 <body>
 {% block body %}
+    <section class="content-header">
+        {% for msg in app.session.flashbag.get('informacion') %}
+            <div id="informacion" class="alert alert-info fade in" >
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <p>{{ msg | raw }}</p>
+            </div>
+        {% endfor %}
+        {% for msg in app.session.flashbag.get('error') %}
+            <div id="error" class="alert alert-danger fade in" >
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <p>{{ msg | raw}}</p>
+            </div>
+        {% endfor %}
+        {% for msg in app.session.flashbag.get('ok') %}
+            <div id="error" class="alert alert-success fade in" >
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <p>{{ msg | raw}}</p>
+            </div>
+        {% endfor %}
+    </section>
     {% block content %}
     {% endblock %}
 {% endblock %}

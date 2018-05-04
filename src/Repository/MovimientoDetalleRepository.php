@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\MovimientoDetalle;
+use App\Funciones;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,27 +20,61 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
         parent::__construct($registry, MovimientoDetalle::class);
     }
 
-    public function nuevoFacturaDetalle($arrSeleccionados)
+    public function eliminar($arrSeleccionados)
     {
+        $objFuncion = new Funciones();
         $em = $this->getEntityManager();
-        $strRespuesta = "";
-        if (count($arrSeleccionados) > 0) {
-            foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
-
+        if ($arrSeleccionados) {
+            try {
+                foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
+                    $arMovimientoDetalle = $em->getRepository("App:MovimientoDetalle")->find($codigoMovimientoDetalle);
+                    $em->remove($arMovimientoDetalle);
+                }
+                $em->flush();
+            } catch (\Exception $exception) {
+                $objFuncion->Mensaje("error", "No se puede eliminar el registro, se esta utilizando en el sistema.");
             }
         }
     }
 
-    public function eliminar($arrSeleccionados)
+    public function liquidar($codigoMovimiento)
     {
+        $objFunciones = new Funciones();
         $em = $this->getEntityManager();
-        $strRespuesta = "";
-        if (count($arrSeleccionados) > 0) {
-            foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
-                $arMovimientoDetalle = $em->getRepository("App:MovimientoDetalle")->find($codigoMovimientoDetalle);
-                $em->remove($arMovimientoDetalle);
+        $arMovimiento = $em->getRepository("App:Movimiento")->find($codigoMovimiento);
+        /** @var  $arMovimientoDetalle MovimientoDetalle */
+        $arMovimientosDetalles = $arMovimiento->getMovimientosDetallesMovimientoRel();
+        $vrSubtotal = 0;
+        $vrIva = 0;
+        $vrDescuento = 0;
+        $vrTotal = 0;
+        try {
+            foreach ($arMovimientosDetalles as $arMovimientoDetalle) {
+                $vrSubtotalDetalle = $arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad();
+                $vrDescuentoDetalle = ($vrSubtotalDetalle * $arMovimientoDetalle->getPorDescuento()) / 100;
+                $vrIvaDealle = ($vrSubtotalDetalle * $arMovimientoDetalle->getPorIva()) / 100;
+                $vrTotalDetalle = $vrSubtotalDetalle - $vrDescuento + $vrIvaDealle;
+
+                $arMovimientoDetalle->setVrDescuento($vrDescuentoDetalle);
+                $arMovimientoDetalle->setVrIva($vrIvaDealle);
+                $arMovimientoDetalle->setVrSubtotal($vrSubtotalDetalle);
+                $arMovimientoDetalle->setVrTotal($vrTotal);
+                $em->persist($arMovimientoDetalle);
+
+                $vrSubtotal += $vrSubtotalDetalle;
+                $vrIva += $vrIvaDealle;
+                $vrDescuento += $vrDescuentoDetalle;
+                $vrTotal += $vrTotalDetalle;
             }
+
+            $arMovimiento->setVrSubtotal($vrSubtotal);
+            $arMovimiento->setVrIva($vrIva);
+            $arMovimiento->setVrDescuento($vrDescuento);
+            $arMovimiento->setVrTotal($vrTotal);
+            $em->persist($arMovimiento);
+            $em->flush();
+        } catch (\Exception $exception) {
+            $objFunciones->Mensaje("error", "Ocurrio un error al momento de actualizar los valores.");
         }
-        return $strRespuesta;
     }
 }

@@ -47,7 +47,6 @@ class ItemController extends Controller
     public function nuevoAction(Request $request, $codigoItem)
     {
         $em = $this->getDoctrine()->getManager();
-        $arEmpresa = $em->getRepository('App:Empresa')->find(1); //Consultar la empresa del usuario
         $arItem = new \App\Entity\Item();
         if ($codigoItem != 0) {
             $arItem = $em->getRepository('App:Item')->find($codigoItem);
@@ -56,6 +55,7 @@ class ItemController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $arItem = $form->getData();
+            $arEmpresa = $this->getUser()->getEmpresaRel();
             $arItem->setEmpresaRel($arEmpresa);
             $em->persist($arItem);
             $em->flush();

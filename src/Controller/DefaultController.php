@@ -21,7 +21,7 @@ class DefaultController extends Controller
 //        $arUsuario = $em->getRepository("App:User");
         $arEmpresa = $em->getRepository('App:Empresa')->find(1);// empresa del usuario logeado
         $session->set('arEmpresa', $arEmpresa);
-        return $this->render('Prueba/index.html.twig');
+        return $this->render('Prueba/inicio.html.twig');
     }
 
 }

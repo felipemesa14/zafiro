@@ -15,7 +15,7 @@ class BuscarTerceroController extends Controller
     public function listaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $codigoEmpresa = 1; //Se debe capturar del empleado
+        $codigoEmpresa = $this->getUser()->getCodigoEmpresaFk(); //Se debe capturar del usuario
         $arTerceros = $em->getRepository('App:Tercero')->findBy(array('codigoEmpresaFk' => $codigoEmpresa));
 
         return $this->render('Buscar/Tercero/tercero.html.twig', array(

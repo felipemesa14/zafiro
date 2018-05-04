@@ -19,11 +19,6 @@ class MovimientoDetalle
     private $codigoMovimientoDetallePk;
 
     /**
-     * @ORM\Column(name="codigo_empresa_fk", type="integer")
-     */
-    private $codigoEmpresaFk;
-
-    /**
      * @ORM\Column(name="codigo_movimiento_fk", type="integer")
      */
     private $codigoMovimientoFk;
@@ -104,22 +99,6 @@ class MovimientoDetalle
     public function setCodigoMovimientoDetallePk($codigoMovimientoDetallePk): void
     {
         $this->codigoMovimientoDetallePk = $codigoMovimientoDetallePk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
-     * @param mixed $codigoEmpresaFk
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**

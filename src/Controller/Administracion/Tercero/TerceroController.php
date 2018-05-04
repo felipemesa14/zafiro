@@ -46,7 +46,6 @@ class TerceroController extends Controller
     public function nuevoAction(Request $request, $codigoTercero)
     {
         $em = $this->getDoctrine()->getManager();
-        $arEmpresa = $em->getRepository('App:Empresa')->find(1); //Consultar la empresa del usuario
         $arTercero = new \App\Entity\Tercero();
         if ($codigoTercero != 0) {
             $arTercero = $em->getRepository('App:Tercero')->find($codigoTercero);
@@ -55,6 +54,7 @@ class TerceroController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $arTercero = $form->getData();
+            $arEmpresa = $this->getUser()->getEmpresaRel();
             $arTercero->setEmpresaRel($arEmpresa);
             $em->persist($arTercero);
             $em->flush();

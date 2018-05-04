@@ -109,9 +109,9 @@
                                 <tbody>
                                 {% for arMovimientoDetalle in arMovimiento.movimientosDetallesMovimientoRel %}
                                     <tr>
-                                        <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}</td>
-                                        <td>{{ arMovimientoDetalle.nombre }}</td>
-                                        <td>{{ arMovimientoDetalle.referencia }}</td>
+                                        <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}<input type="hidden" name="LblCodigo[]" value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}"></td>
+                                        <td>{{ arMovimientoDetalle.itemRel.nombre | default('') }}</td>
+                                        <td>{{ arMovimientoDetalle.itemRel.referencia | default('') }}</td>
                                         <td style="text-align: center"><input class="input-grid" type="number"
                                                                               name="TxtPrecio{{ arMovimientoDetalle.codigoMovimientoDetallePk }}"
                                                                               value="{{ arMovimientoDetalle.vrPrecio }}"
@@ -157,6 +157,9 @@
                     <a class="btn btn-default btn-sm"
                        href="javascript:abrirVentana('{{ path('zaf_ingreso_factura_detalle_nuevo_item', { 'codigoMovimiento': arMovimiento.codigoMovimientoPk}) }}', 'agregarItem', 600, 900)"
                        style="float:left">Nuevo</a>
+                </div>
+                <div class="btn-group">
+                    {{ form_widget(form.BtnActualizar, {'attr':{'class': 'btn btn-default btn-sm'}}) }}
                 </div>
                 <div class="btn-group">
                     {{ form_widget(form.BtnEliminar, {'attr':{'class': 'btn btn-danger btn-sm'}}) }}
