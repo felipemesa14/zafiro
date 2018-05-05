@@ -3,6 +3,7 @@
 namespace App\Controller\Movimiento\Comercial;
 
 use App\Controller\Administracion\Item\ItemController;
+use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
 use App\Funciones;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,12 +20,13 @@ class FacturaController extends Controller
 
     /**
      * @Route("/ingreso/factura/lista", name="zaf_ingreso_factura_lista")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function listaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $objFuncion = new Funciones();
-        $session = new Session();
         $form = $this->formularioLista();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,12 +50,15 @@ class FacturaController extends Controller
 
     /**
      * @Route("/ingreso/factura/nuevo/{codigoMovimiento}", name="zaf_ingreso_factura_nuevo")
+     * @param Request $request
+     * @param $codigoMovimiento
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function nuevoAction(Request $request, $codigoMovimiento)
     {
         $em = $this->getDoctrine()->getManager();
         $objFunciones = new Funciones();
-        $arMovimiento = new \App\Entity\Movimiento();
+        $arMovimiento = new Movimiento();
         $arMovimiento->setFecha(new \DateTime('now'));
         $arMovimiento->setFechaVencimiento(new \DateTime('now'));
         if ($codigoMovimiento != 0) {
@@ -86,11 +91,15 @@ class FacturaController extends Controller
 
     /**
      * @Route("/ingreso/factura/detalle/{codigoMovimiento}", name="zaf_ingreso_factura_detalle")
+     * @param Request $request
+     * @param $codigoMovimiento
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function detalleAction(Request $request, $codigoMovimiento)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->formularioDetalle();
+        $arMovimiento = $em->getRepository('App:Movimiento')->find($codigoMovimiento);
+        $form = $this->formularioDetalle($arMovimiento);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('BtnEliminar')->isClicked()) {
@@ -102,8 +111,32 @@ class FacturaController extends Controller
                 $arrControles = $request->request->All();
                 $this->actualizarDetalle($arrControles, $codigoMovimiento);
             }
+            if ($form->get('BtnAutorizar')->isClicked()) {
+                if (!$arMovimiento->getEstadoAutorizado()) {
+                    $arMovimiento->setEstadoAutorizado(true);
+                    $em->persist($arMovimiento);
+                    $em->flush();
+                    return $this->redirectToRoute("zaf_ingreso_factura_detalle", ['codigoMovimiento' => $codigoMovimiento]);
+                }
+            }
+            if ($form->get('BtnDesAutorizar')->isClicked()) {
+                if ($arMovimiento->getEstadoAutorizado()) {
+                    $arMovimiento->setEstadoAutorizado(false);
+                    $em->persist($arMovimiento);
+                    $em->flush();
+                    return $this->redirectToRoute("zaf_ingreso_factura_detalle", ['codigoMovimiento' => $codigoMovimiento]);
+                }
+            }
+            if ($form->get('BtnAnular')->isClicked()) {
+                if ($arMovimiento->getEstadoAutorizado()) {
+                    $em->getRepository("App:Movimiento")->anular($arMovimiento);
+                    return $this->redirectToRoute("zaf_ingreso_factura_detalle", ['codigoMovimiento' => $codigoMovimiento]);
+                }
+            }
+            if ($form->get('BtnImprimir')->isClicked()) {
+
+            }
         }
-        $arMovimiento = $em->getRepository('App:Movimiento')->find($codigoMovimiento);
         return $this->render('Movimiento/Comercial/Factura/detalle.html.twig', array(
             'arMovimiento' => $arMovimiento,
             'form' => $form->createView()));
@@ -111,6 +144,9 @@ class FacturaController extends Controller
 
     /**
      * @Route("/ingreso/factura/detalle/nuevo/item/{codigoMovimiento}", name="zaf_ingreso_factura_detalle_nuevo_item")
+     * @param Request $request
+     * @param $codigoMovimiento
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function detalleNuevoItemAction(Request $request, $codigoMovimiento)
     {
@@ -126,23 +162,25 @@ class FacturaController extends Controller
             if ($form->get('BtnGuardar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
                 if ($arrSeleccionados) {
-//                    try {
-                    $arMovimiento = $em->getRepository("App:Movimiento")->find($codigoMovimiento);
-                    foreach ($arrSeleccionados as $seleccionado) {
-                        $arItem = $em->getRepository("App:Item")->find($seleccionado);
-                        $arMovimientoDetalle = new MovimientoDetalle();
-                        $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                        $arMovimientoDetalle->setItemRel($arItem);
-                        $arMovimientoDetalle->setCantidad($request->request->get("TxtCantidad{$seleccionado}"));
-                        $arMovimientoDetalle->setPorDescuento($request->request->get("TxtDescuento{$seleccionado}"));
-                        $arMovimientoDetalle->setVrPrecio($request->request->get("TxtPrecio{$seleccionado}"));
-                        $arMovimientoDetalle->setPorIva($request->request->get("TxtPorcentaje{$seleccionado}"));
-                        $em->persist($arMovimientoDetalle);
+                    try {
+                        $arMovimiento = $em->getRepository("App:Movimiento")->find($codigoMovimiento);
+                        foreach ($arrSeleccionados as $seleccionado) {
+                            $arItem = $em->getRepository("App:Item")->find($seleccionado);
+                            $arMovimientoDetalle = new MovimientoDetalle();
+                            $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                            $arMovimientoDetalle->setItemRel($arItem);
+                            $arMovimientoDetalle->setCantidad($request->request->get("TxtCantidad{$seleccionado}"));
+                            $arMovimientoDetalle->setPorDescuento($request->request->get("TxtDescuento{$seleccionado}"));
+                            $arMovimientoDetalle->setVrPrecio($request->request->get("TxtPrecio{$seleccionado}"));
+                            $arMovimientoDetalle->setPorIva($request->request->get("TxtPorcentaje{$seleccionado}"));
+                            $em->persist($arMovimientoDetalle);
+                        }
+                        $em->flush();
+                        $em->getRepository("App:MovimientoDetalle")->liquidar($codigoMovimiento);
+                        echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                    } catch (\Exception $exception) {
+                        $objFuncion->Mensaje("error", "Ocurrio un error al momento de guardar el registro.");
                     }
-                    $em->flush();
-//                    } catch (\Exception $exception) {
-//                        $objFuncion->Mensaje("error", "Ocurrio un error al momento de guardar el registro.");
-//                    }
                 }
             }
         }
@@ -165,11 +203,39 @@ class FacturaController extends Controller
         return $form;
     }
 
-    private function formularioDetalle()
+    /**
+     * @param $arMovimiento Movimiento
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function formularioDetalle($arMovimiento)
     {
+        $arrBtnImprimir = ['label' => "Imprimir", "disabled" => true];
+        $arrBtnAutorizar = ['label' => "Autorizar", "disabled" => false];
+        $arrBtnDesAutorizar = ['label' => "Desautorizar", "disabled" => true];
+        $arrBtnActualizar = ['label' => "Actualizar", "disabled" => false];
+        $arrBtnEliminar = ['label' => "Eliminar", "disabled" => false];
+        $arrBtnAnular = ['label' => "Anular", "disabled" => true];
+        if ($arMovimiento->getEstadoAutorizado()) {
+            $arrBtnActualizar['disabled'] = true;
+            $arrBtnAutorizar['disabled'] = true;
+            $arrBtnEliminar['disabled'] = true;
+            $arrBtnDesAutorizar['disabled'] = false;
+            $arrBtnImprimir['disabled'] = false;
+            $arrBtnAnular['disabled'] = false;
+        }
+        if ($arMovimiento->getEstadoAnulado()) {
+            $arrBtnDesAutorizar['disabled'] = true;
+            $arrBtnAnular['disabled'] = true;
+            $arrBtnImprimir['disabled'] = false;
+        }
+
         $form = $this->createFormBuilder()
-            ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
-            ->add('BtnActualizar', SubmitType::class, array('label' => 'Actualizar'))
+            ->add('BtnImprimir', SubmitType::class, $arrBtnImprimir)
+            ->add('BtnAutorizar', SubmitType::class, $arrBtnAutorizar)
+            ->add('BtnDesAutorizar', SubmitType::class, $arrBtnDesAutorizar)
+            ->add('BtnAnular', SubmitType::class, $arrBtnAnular)
+            ->add('BtnEliminar', SubmitType::class, $arrBtnEliminar)
+            ->add('BtnActualizar', SubmitType::class, $arrBtnActualizar)
             ->getForm();
 
         return $form;

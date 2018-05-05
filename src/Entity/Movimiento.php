@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="movimiento")
  * @ORM\Entity(repositoryClass="App\Repository\MovimientoRepository")
  */
-class Movimiento {
+class Movimiento
+{
 
     /**
      * @ORM\Id
@@ -44,31 +45,36 @@ class Movimiento {
 
     /**
      * @ORM\Column(name="fecha", type="date")
-     * 
+     *
      */
     private $fecha;
 
     /**
      * @ORM\Column(name="fecha_vencimiento", type="date")
-     * 
+     *
      */
     private $fechaVencimiento;
 
     /**
      * @ORM\Column(name="plazo_pago", type="integer")
-     * 
+     *
      */
     private $plazoPago = 0;
 
     /**
-     * @ORM\Column(name="estado_autorizado", type="boolean")
+     * @ORM\Column(name="estado_autorizado", type="boolean", nullable=true)
      */
     private $estadoAutorizado = false;
 
     /**
-     * @ORM\Column(name="estado_anulado", type="boolean")
+     * @ORM\Column(name="estado_anulado", type="boolean", nullable=true)
      */
     private $estadoAnulado = false;
+
+    /**
+     * @ORM\Column(name="estado_impreso", type="boolean", nullable=true)
+     */
+    private $estadoImpreso = false;
 
     /**
      * @ORM\Column(name="vr_subtotal", type="float")
@@ -122,7 +128,7 @@ class Movimiento {
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
     protected $empresaRel;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
      */
@@ -478,6 +484,22 @@ class Movimiento {
     public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoImpreso()
+    {
+        return $this->estadoImpreso;
+    }
+
+    /**
+     * @param mixed $estadoImpreso
+     */
+    public function setEstadoImpreso($estadoImpreso): void
+    {
+        $this->estadoImpreso = $estadoImpreso;
     }
 
 }

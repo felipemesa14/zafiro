@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Movimiento;
+use App\Entity\MovimientoDetalle;
 use App\Funciones;
 use Doctrine\ORM\EntityRepository;
 
@@ -14,6 +16,9 @@ use Doctrine\ORM\EntityRepository;
 class MovimientoRepository extends EntityRepository
 {
 
+    /**
+     * @param $arrSeleccionados
+     */
     public function eliminar($arrSeleccionados)
     {
         $objFuncion = new Funciones();
@@ -29,6 +34,41 @@ class MovimientoRepository extends EntityRepository
                 $objFuncion->Mensaje("error", "No se puede eliminar el registro, se esta utilizando en el sistema.");
             }
         }
+    }
+
+    /**
+     * @param $arMovimiento Movimiento
+     */
+    public function anular($arMovimiento)
+    {
+        $objFunciones = new Funciones();
+        $em = $this->getEntityManager();
+        if ($arMovimiento->getEstadoAutorizado() && $arMovimiento->getEstadoAnulado() == 0) {
+            try {
+                /** @var  $arMovimientoDetalle MovimientoDetalle */
+                $arMovimientosDetalles = $arMovimiento->getMovimientosDetallesMovimientoRel();
+                foreach ($arMovimientosDetalles as $arMovimientoDetalle) {
+                    $arMovimientoDetalle->setVrIva(0);
+                    $arMovimientoDetalle->setVrDescuento(0);
+                    $arMovimientoDetalle->setVrSubtotal(0);
+                    $arMovimientoDetalle->setVrTotal(0);
+                    $arMovimientoDetalle->setVrIva(0);
+                    $arMovimientoDetalle->setVrPrecio(0);
+                    $em->persist($arMovimientoDetalle);
+                }
+                $arMovimiento->setVrTotal(0);
+                $arMovimiento->setVrSubtotal(0);
+                $arMovimiento->setVrDescuento(0);
+                $arMovimiento->setVrIva(0);
+                $arMovimiento->setEstadoAnulado(true);
+                $em->persist($arMovimiento);
+                $em->flush();
+            } catch (\Exception $exception) {
+                $objFunciones->Mensaje("error", "Ocurrió un error al momento de anular la factura.");
+            }
+        }
+
+
     }
 
 }

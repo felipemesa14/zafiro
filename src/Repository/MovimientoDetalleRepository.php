@@ -53,12 +53,12 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
                 $vrSubtotalDetalle = $arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad();
                 $vrDescuentoDetalle = ($vrSubtotalDetalle * $arMovimientoDetalle->getPorDescuento()) / 100;
                 $vrIvaDealle = ($vrSubtotalDetalle * $arMovimientoDetalle->getPorIva()) / 100;
-                $vrTotalDetalle = $vrSubtotalDetalle - $vrDescuento + $vrIvaDealle;
+                $vrTotalDetalle = $vrSubtotalDetalle + $vrIvaDealle - $vrDescuento;
 
                 $arMovimientoDetalle->setVrDescuento($vrDescuentoDetalle);
                 $arMovimientoDetalle->setVrIva($vrIvaDealle);
                 $arMovimientoDetalle->setVrSubtotal($vrSubtotalDetalle);
-                $arMovimientoDetalle->setVrTotal($vrTotal);
+                $arMovimientoDetalle->setVrTotal($vrTotalDetalle);
                 $em->persist($arMovimientoDetalle);
 
                 $vrSubtotal += $vrSubtotalDetalle;
